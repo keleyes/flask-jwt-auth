@@ -25,7 +25,7 @@ class User(db.Model):
         self.registered_on = datetime.datetime.now()
         self.admin = admin
 
-    def encode_auth_token(self, user_id):
+    def encode_auth_token(self,user_id):
         """
         Generates the Auth Token
         :return: string
@@ -34,14 +34,16 @@ class User(db.Model):
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
                 'iat': datetime.datetime.utcnow(),
-                'sub': user_id
+                'sub': self.email
             }
+            print(app.config.get('PRIVATE_KEY'))
             return jwt.encode(
                 payload,
-                app.config.get('SECRET_KEY'),
-                algorithm='HS256'
+                app.config.get('PRIVATE_KEY'),
+                algorithm='RS256'
             )
         except Exception as e:
+            print(1)
             return e
 
     @staticmethod

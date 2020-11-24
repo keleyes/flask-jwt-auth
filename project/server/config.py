@@ -2,13 +2,20 @@
 
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-postgres_local_base = 'postgresql://postgres:@localhost/'
-database_name = 'flask_jwt_auth'
+postgres_local_base = 'postgresql://@qc.icache.top/'
+database_name = 'flask_auth'
+with open('project/server/keys/public.key','rb') as f:
+    public_key = f.read()
+with open('project/server/keys/private.key','rb') as f:
+    private_key = f.read()
+
 
 
 class BaseConfig:
     """Base configuration."""
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious')
+    PUBLIC_KEY = public_key
+    PRIVATE_KEY = private_key
     DEBUG = False
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_TRACK_MODIFICATIONS = False
